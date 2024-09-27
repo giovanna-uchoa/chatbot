@@ -7,7 +7,7 @@ def setup():
 
 def main():
     setup()
-    maritaca = summarizer.MaritacaAdapter(os.getenv("KEY"))
+    maritaca = summarizer.MaritacaAdapter(os.getenv("MARITACA_KEY"))
 
     teste = maritaca.run("""
     Escritor, autista e influenciador digital: quem era padre Fabrício Rodrigues, morto em acidente com cavalo no Pará. 

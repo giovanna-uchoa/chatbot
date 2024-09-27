@@ -1,5 +1,5 @@
 #/bin/bash
-
+#!./.venv/python
 
 # Exit immediately if a command exits with a non-zero status
 set -e
@@ -14,7 +14,7 @@ source "${DIR}/.venv/bin/activate"
 
 # Install Python dependencies
 echo "Installing Python dependencies..."
-pip install -r "${DIR}/requirements.txt"
+python -m pip install -r "${DIR}/requirements.txt"
 
 # Deactivate the Python virtual environment
 deactivate
