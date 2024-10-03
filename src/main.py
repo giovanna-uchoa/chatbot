@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 import summarizer
+import researcher
 import os
 
 def setup():
@@ -7,8 +8,16 @@ def setup():
 
 def main():
     setup()
-    maritaca = summarizer.MaritacaAdapter(os.getenv("MARITACA_KEY"))
 
+    maritaca = summarizer.MaritacaAdapter(os.getenv("MARITACA_KEY"))
+    
+    news = researcher.NewsAdapter(os.getenv("NEWS_API_KEY"), 'pt', 'br', ['blasting-news-br'])
+
+    # print(news.get_top_headlines())
+
+    # print(news.get_articles())
+   
+    '''
     teste = maritaca.run("""
     Escritor, autista e influenciador digital: quem era padre Fabrício Rodrigues, morto em acidente com cavalo no Pará. 
     
@@ -23,4 +32,5 @@ O estudante de Psicologia Elias Ferraz estudou junto com Fabrício e estagiaram 
     """)
 
     print(teste)
+    '''
 main()

@@ -1,6 +1,5 @@
 import maritalk
 
-
 class MaritacaAdapter:
     model: maritalk.MariTalk
     model_type: str = "sabia-3"
