@@ -1,6 +1,7 @@
 # Espresso News
 
-Projeto desenvolvido para o bootcamp "IA + Bots", promovido pelo grupo de extensão USP CodeLab Butantã, o Espresso News é um chatbot para Telegram que informa o usuário sobre as notícias do dia. O chatbot foi implementado no Telegram, utilizando as APIs da [News API](https://www.newsapi.ai/) e Maritaca AI. A API Maritaca é responsável por categorizar as manchetes e gerar resumos com base nessas categorias
+Projeto desenvolvido para o bootcamp "IA + Bots", promovido pelo grupo de extensão USP CodeLab Butantã, o Espresso News é um chatbot para Telegram que informa o usuário sobre as notícias do dia.\n\n 
+O chatbot foi implementado no Telegram, utilizando as APIs da [News API](https://www.newsapi.ai/) e Maritaca AI. A API Maritaca é responsável por categorizar as manchetes e gerar resumos com base nessas categorias
 
 ## Acesso ao Bot
 
