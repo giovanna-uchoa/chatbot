@@ -60,9 +60,16 @@ def handle_summary(bot, call, chat, maritaca, news):
 
     bot.answer_callback_query(call.id, text="Resumindo as notícias do dia...")
 
+    markup = InlineKeyboardMarkup()
+    markup.add(InlineKeyboardButton("Processando...", callback_data="processing"))
+
+    # Edita a mensagem atual, removendo o botão clicável
+    bot.edit_message_reply_markup(chat.id, call.message.message_id, reply_markup=markup)
+
+
     if call.data == 'como_esta_o_dia': 
         summary = maritaca.run(news.get_top_headlines())
-    else:
+    elif request not None:
         summary = maritaca.filter(call.data, news.get_articles())
 
     bot.send_message(chat.id,
