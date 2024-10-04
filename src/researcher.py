@@ -22,6 +22,7 @@ class NewsAdapter:
 
 
     def set_everything(self) -> list:
+        print("Atualizando as notícias...")
         all_articles = self.model.get_everything(q='',
                                                  sources=self.sources,
                                                  from_param=date.today() - timedelta(days = 1),
@@ -40,13 +41,13 @@ class NewsAdapter:
         
 
     def get_articles(self) -> list:
-        if (self.updated - datetime.now() > timedelta(hours = 8)):
+        if (self.updated - datetime.now() > timedelta(hours = 2)):
             set_everything() 
         return self.articles
 
 
     def get_top_headlines(self) -> list:
-        if (self.updated - datetime.now() > timedelta(hours = 8)):
+        if (self.updated - datetime.now() > timedelta(hours = 2)):
             set_everything() 
         return self.headlines
         
