@@ -4,9 +4,7 @@ Projeto desenvolvido para o bootcamp "IA + Bots", promovido pelo grupo de extens
 
 O chatbot foi implementado no Telegram, utilizando as APIs da [News API](https://newsapi.org/) e Maritaca AI. A API Maritaca é responsável por categorizar as manchetes e gerar resumos com base nessas categorias
 
-**Acesso ao Bot**
-
-[Espresso News 📬](t.me/espressoNews_bot)
+**Acesso ao Bot:** [Espresso News 📬](t.me/espressoNews_bot)
 
 ## Pré-Requisitos
 Para rodar o projeto na sua máquina local, você precisa ter as seguintes ferramentas instaladas:
