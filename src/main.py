@@ -1,36 +1,55 @@
+from chatbot import create_buttons, check_chat_started, handle_summary
 from dotenv import load_dotenv
 import summarizer
 import researcher
+import telebot
 import os
 
+
+
+# Função para configurar o bot e as APIs
 def setup():
     load_dotenv()
+    print("Conectando ao bot do telegram...")
+    bot = telebot.TeleBot(os.getenv("TELEGRAM_KEY"))
+    print("Conectado com sucesso!")
 
-def main():
-    setup()
-
+    print("Conectando com as APIs: Maritaca e NewsApi...")
     maritaca = summarizer.MaritacaAdapter(os.getenv("MARITACA_KEY"))
-    
-    news = researcher.NewsAdapter(os.getenv("NEWS_API_KEY"), 'pt', 'br', ['blasting-news-br'])
+    print("Conectado com Maritaca!")
+    news = researcher.NewsAdapter(os.getenv("NEWS_API_KEY"), 'pt', 'br', ['blasting-news-br'])    
+    print("Conectado com NewsAPI!")
 
-    # print(news.get_top_headlines())
+    return bot, maritaca, news
 
-    # print(news.get_articles())
-   
-    '''
-    teste = maritaca.run("""
-    Escritor, autista e influenciador digital: quem era padre Fabrício Rodrigues, morto em acidente com cavalo no Pará. 
-    
-    Religioso tinha mais de 600 mil seguidores nas redes sociais. Ele estava de motocicleta e colidiu contra um cavalo na rodovia BR-230 (Transmazônica).
-    Escritor, cantor e influenciador digital. Estas são algumas das funções que ajudaram ao padre Fabrício Rodrigues a cumprir com a missão de levar a palavra de Deus para o maior número possível de pessoas. Ele faleceu aos 29 anos, vítima de acidente com cavalo na rodovia BR-230, em São João do Araguaia, região sudeste do Pará, na última quinta-feira (12). (Saiba mais no vídeo ao final desta matéria)
-    De todas formas com a qual ele costumava a se apresentar, uma chamava atenção: o padre Fabrício estava dentro do Transtorno do Espectro Autista (TEA).
-    Somente em uma rede social, o religioso tinha mais de 600 mil seguidores e ele usava as plataformas digitais a favor da evangelização. Em um dos perfis que mantinha, ele fez questão de mostrar a carteirinha de autista.
-“Para mim o autismo se tornou um dom e não um peso. Deus me concedeu esse dom para eu pudesse cuidar de uma forma muito mais humana, tivesse um olhar mais humano, para tantas almas que necessitam ter esse encontro com Jesus Cristo”, disse.
-O estudante de Psicologia Elias Ferraz estudou junto com Fabrício e estagiaram juntos. Lembrou da facilidade de se comunicar que o padre tinha, mesmo com autismo.
 
-“Ele tinha muita facilidade de se comunicar, muito carisma, sempre divertido e alegre. A gente lembra que ele sempre levava marmitas ‘fit’ para a faculdade, era um bom aluno bem dedicado”.
-    """)
+if __name__ == "__main__":
+    bot, maritaca, news = setup()
+    chats = {}
 
-    print(teste)
-    '''
-main()
+    @bot.message_handler(commands=['start'])
+    def welcome(message):
+        chats[message.chat.id] = message.chat
+
+        welcome_text = (
+            "*Espresso News* ☕📰\n\n"
+            "Eu sou um bot e faço os melhores resumos de notícias para você!\n\n"
+            "↪️ Se você quer um resumo de tudo que tá rolando, é só clicar em '🌎 Como está o dia'.\n\n"
+            "↪️ Quer algo mais específico? É só escolher o assunto que te interessa e eu trago as novidades pra você!\n\n"
+            "💡 Divirta-se se informando!"
+        )
+        bot.send_message(message.chat.id, welcome_text, reply_markup=create_buttons(), parse_mode='Markdown')
+
+    @bot.message_handler(func=lambda message: True)
+    def reply_to_message(message):
+        chat = chats.get(message.chat.id)
+        if check_chat_started(chat, message, bot):
+            bot.send_message(chat.id, "Por favor, selecione um dos botões acima!")
+
+    @bot.callback_query_handler(func=lambda call: True)
+    def return_summary(call):
+        chat = chats.get(call.message.chat.id)
+        if check_chat_started(chat, call.message, bot):
+            handle_summary(bot, call, chat, maritaca, news)
+
+    bot.infinity_polling()
