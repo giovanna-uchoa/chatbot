@@ -45,7 +45,7 @@ if __name__ == "__main__":
         if check_chat_started(chat, message, bot):
                 choose_text = (
                      "*Espresso News* ☕📰\n\n"
-                     "Olá, "+ chat.username +"!\n\n" 
+                     "Olá, "+ chat.username +"!👾\n\n" 
                      "Por favor, escolha um dos assuntos abaixo ou veja o resumo do dia:", 
                 )
                 
@@ -58,4 +58,4 @@ if __name__ == "__main__":
         if check_chat_started(chat, call.message, bot):
             handle_summary(bot, call, chat, maritaca, news)
 
-    bot.infinity_polling()
+    bot.infinity_polling(timeout=60, long_polling_timeout=60)

@@ -58,25 +58,29 @@ def check_chat_started(chat, message, bot):
 def handle_summary(bot, call, chat, maritaca, news):
     request = dicts(call.data)
 
-    bot.answer_callback_query(call.id, text="Resumindo as notícias do dia...")
+    bot.answer_callback_query(call.id)
 
     markup = InlineKeyboardMarkup()
-    markup.add(InlineKeyboardButton("Processando...", callback_data="processing"))
+    markup.add(InlineKeyboardButton("Resumindo as notícias do dia...", callback_data="processing"))
 
-    # Edita a mensagem atual, removendo o botão clicável
+    # Edita a mensagem atual, removendo os botões
     bot.edit_message_reply_markup(chat.id, call.message.message_id, reply_markup=markup)
-
+    summary = 'teste'
 
     if call.data == 'como_esta_o_dia': 
         summary = maritaca.run(news.get_top_headlines())
     elif request != None:
         summary = maritaca.filter(call.data, news.get_articles())
 
+
+    # Edita a mensagem atual, removendo o botão clicável
+    bot.edit_message_reply_markup(chat.id, call.message.message_id, reply_markup=None)
+
+
     bot.send_message(chat.id,
                      f"{request[1]} *Resumo das principais notícias {request[0]}:* \n\n {summary}",
                      parse_mode='Markdown')
 
-    bot.answer_callback_query(call.id)
     bot.send_message(chat.id, 
                     "🔁 Escolha outro assunto ou veja o resumo do dia novamente:", 
                     reply_markup=create_buttons())
