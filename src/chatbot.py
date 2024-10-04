@@ -69,7 +69,7 @@ def handle_summary(bot, call, chat, maritaca, news):
 
     if call.data == 'como_esta_o_dia': 
         summary = maritaca.run(news.get_top_headlines())
-    elif request not None:
+    elif request != None:
         summary = maritaca.filter(call.data, news.get_articles())
 
     bot.send_message(chat.id,

@@ -6,7 +6,6 @@ import telebot
 import os
 
 
-
 # Função para configurar o bot e as APIs
 def setup():
     load_dotenv()
