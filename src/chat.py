@@ -3,15 +3,15 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from dotenv import load_dotenv
 import os
 
-'''
-prompt
-'''
+
+prompt = ""
+
 class Chat:
     def __init__(self, chat_id: int):
         global prompt
 
         self.chat_id = chat_id
-        self.prompt = ""
+        self.prompt = prompt
         self.esperando_noticias = False
 
 chats: list[Chat] = []
@@ -28,18 +28,24 @@ def cria_botoes():
     )
     
     botoes.add(
+    InlineKeyboardButton("💸 Economia", callback_data="economia"),
     InlineKeyboardButton("📚 Educação", callback_data="educacao"),
-    InlineKeyboardButton("🎥 Entretenimento", callback_data="entretenimento")
+    
     )
     
     botoes.add(
-    InlineKeyboardButton("⚽ Esportes", callback_data="esporte"),
-    InlineKeyboardButton("🌱 Meio Ambiente", callback_data="meio_ambiente")
+    InlineKeyboardButton("🎥 Entretenimento", callback_data="entretenimento"),
+    InlineKeyboardButton("⚽ Esportes", callback_data="esporte")
     )
     
     botoes.add(
-    InlineKeyboardButton("💊 Saúde", callback_data="saude"),
-    InlineKeyboardButton("🏛️ Política", callback_data="politica")
+    InlineKeyboardButton("🌱 Meio Ambiente", callback_data="meio_ambiente"),
+    InlineKeyboardButton("💊 Saúde", callback_data="saude")
+    )
+    
+     botoes.add(
+    InlineKeyboardButton("🏛️ Política", callback_data="politica"),
+    InlineKeyboardButton("🔎 Outros", callback_data="outros")
     )
 
     return botoes
@@ -55,6 +61,8 @@ def dicionarios(opcao):
         "meio_ambiente": "sobre meio ambiente",
         "saude": "sobre saúde",
         "politica": "sobre política"
+        "economia":"sobre economia"
+        "outros":"sobre outros assuntos"
     }
 
     opcoes_emojis = {
@@ -65,6 +73,8 @@ def dicionarios(opcao):
         "meio_ambiente": "🌱",
         "saude": "💊",
         "politica": "🏛️"
+        "Economia":"💸"
+        " Outros":"🔎"
     }
 
     return opcoes_resumo.get(opcao), opcoes_emojis.get(opcao)
