@@ -10,12 +10,12 @@ def create_buttons():
 
     buttons.row(    
         InlineKeyboardButton("📚 Educação", callback_data="educacao"),
-        InlineKeyboardButton("🎥 Entretenimento", callback_data="entretenimento"),
+        InlineKeyboardButton("🌱 Meio Ambiente", callback_data="meio_ambiente"),
     )
 
     buttons.row(    
         InlineKeyboardButton("⚽ Esportes", callback_data="esporte"),
-        InlineKeyboardButton("🌱 Meio Ambiente", callback_data="meio_ambiente"),
+        InlineKeyboardButton("💸 Economia", callback_data="economia"),
     )
 
     buttons.row(
@@ -30,18 +30,18 @@ def dicts(opt):
     categories = {
         "como_esta_o_dia": "do dia",
         "educacao": "sobre educação",
-        "entretenimento": "sobre entretenimento",
+        "meio_ambiente": "sobre o meio ambiente",
         "esporte": "sobre esportes",
-        "meio_ambiente": "sobre meio ambiente",
+        "economia": "sobre economia",
         "saude": "sobre saúde",
         "politica": "sobre política"
     }
     emojis = {
         "como_esta_o_dia": "🌎",
         "educacao": "📚",
-        "entretenimento": "🎥",
-        "esporte": "⚽",
         "meio_ambiente": "🌱",
+        "esporte": "⚽",
+        "economia": "💸",
         "saude": "💊",
         "politica": "🏛️"
     }
@@ -57,10 +57,13 @@ def check_chat_started(chat, message, bot):
 # Função para processar as respostas
 def handle_summary(bot, call, chat, maritaca, news):
     request = dicts(call.data)
+
+    bot.answer_callback_query(call.id, text="Resumindo as notícias do dia...")
+
     if call.data == 'como_esta_o_dia': 
         summary = maritaca.run(news.get_top_headlines())
     else:
-        summary = "Em construção..."
+        summary = maritaca.filter(call.data, news.get_articles())
 
     bot.send_message(chat.id,
                      f"{request[1]} *Resumo das principais notícias {request[0]}:* \n\n {summary}",

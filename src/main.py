@@ -17,7 +17,7 @@ def setup():
     print("Conectando com as APIs: Maritaca e NewsApi...")
     maritaca = summarizer.MaritacaAdapter(os.getenv("MARITACA_KEY"))
     print("Conectado com Maritaca!")
-    news = researcher.NewsAdapter(os.getenv("NEWS_API_KEY"), 'pt', 'br', ['blasting-news-br'])    
+    news = researcher.NewsAdapter(os.getenv("NEWSAPI_KEY"), 'pt', 'br', ['blasting-news-br'])    
     print("Conectado com NewsAPI!")
 
     return bot, maritaca, news
@@ -44,7 +44,14 @@ if __name__ == "__main__":
     def reply_to_message(message):
         chat = chats.get(message.chat.id)
         if check_chat_started(chat, message, bot):
-            bot.send_message(chat.id, "Por favor, selecione um dos botões acima!")
+                choose_text = (
+                     "*Espresso News* ☕📰\n\n"
+                     "Olá, "+ chat.username +"!\n\n" 
+                     "Por favor, escolha um dos assuntos abaixo ou veja o resumo do dia:", 
+                )
+                
+                bot.send_message(chat.id,choose_text, reply_markup=create_buttons(), parse_mode='Markdown')
+
 
     @bot.callback_query_handler(func=lambda call: True)
     def return_summary(call):
